@@ -7,7 +7,9 @@ import lombok.Data;
  */
 @Data
 public class Score {
-    private Member member;
+    private User user;
     private int order;
     private int score;
+    private String hakotenYn;
+    private String yakumanKind;
 }

@@ -1,7 +1,7 @@
-package com.kkmkkm.tenhou.member;
+package com.kkmkkm.tenhou.user;
 
-import com.kkmkkm.tenhou.member.domain.Member;
-import com.kkmkkm.tenhou.member.service.MemberService;
+import com.kkmkkm.tenhou.user.domain.User;
+import com.kkmkkm.tenhou.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +14,13 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/member")
-public class MemberController {
+@RequestMapping("/api/user")
+public class UserController {
 
-    private final MemberService memberService;
+    private final UserService userService;
 
     @GetMapping("/")
-    public List<Member> getMemberList(int season) {
-        return memberService.getMemberList(int season);
+    public List<User> getMemberList(int season) {
+        return userService.getUserList(season);
     }
 }

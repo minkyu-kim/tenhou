@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.com.kkmkkm.tenhou.user.domain.UserRepository">
+
+    <resultMap id="user" type="user">
+        <constructor>
+            <idArg javaType="int" column="user_seq"/>
+            <arg javaType="string" column="id"/>
+            <arg javaType="string" column="name"/>
+            <arg javaType="int" column="game_count"/>
+            <arg javaType="int" column="first_count"/>
+            <arg javaType="int" column="second_count"/>
+            <arg javaType="int" column="third_count"/>
+            <arg javaType="int" column="fourth_count"/>
+            <arg javaType="int" column="yakuman_count"/>
+            <arg javaType="int" column="hakoten_count"/>
+            <arg javaType="int" column="total_score"/>
+            <arg javaType="java.time.LocalDateTime" column="reg_dt"/>
+            <arg javaType="java.time.LocalDateTime" column="mod_dt"/>
+        </constructor>
+    </resultMap>
+
+    <select id="selectUserList" resultMap="user" parameterType="int">
+        SELECT
+          user.user_seq AS user_seq,
+          user.id AS id,
+          user.name AS name,
+          count(1) AS game_count,
+          count(if(score.order=1, score.order, null)) AS first_count,
+          count(if(score.order=2, score.order, null)) AS second_count,
+          count(if(score.order=3, score.order, null)) AS third_count,
+          count(if(score.order=4, score.order, null)) AS fourth_count,
+          count(if(score.yakuman_kind!=null, score.yakuman_kind, null)) AS yakuman_count,
+          count(if(score.hakoten_yn='Y', score.hakoten_yn, null)) AS hakoten_count,
+          sum(score.score) AS total_score,
+          user.reg_dt AS reg_dt,
+          user.mod_dt AS mod_dt
+        FROM user
+          LEFT JOIN score ON user.user_seq = score.user_seq
+        <if test="season > 0">
+          WHERE
+          score.season = #{season}
+        </if>
+        GROUP BY
+          user.user_seq
+    </select>
+
+    <insert id="insertUser" parameterType="user">
+        INSERT INTO
+          user (
+            id, name
+          )
+        VALUES (
+          #{id}, #{name}
+        )
+    </insert>
+</mapper>

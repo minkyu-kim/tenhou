@@ -1,4 +1,4 @@
-package com.kkmkkm.tenhou.member.domain;
+package com.kkmkkm.tenhou.user.domain;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
  * Created by kkm on 2018. 8. 17..
  */
 @Data
-@Alias("member")
-public class Member {
-    private int id;
-    private String userId;
-    private String userName;
+@Alias("user")
+public class User {
+    private int userSeq;
+    private String id;
+    private String name;
     private int gameCount;
     private int firstCount;
     private int secondCount;

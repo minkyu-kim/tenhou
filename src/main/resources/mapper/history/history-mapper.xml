@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.com.kkmkkm.tenhou.history.domain.HistoryRepository">
+
+    <resultMap id="history" type="history">
+        <constructor>
+            <arg javaType="game" resultMap="game"/>
+            <arg javaType="score" resultMap="score"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="game" type="game">
+        <constructor>
+            <idArg javaType="int" column="game_seq"/>
+            <arg javaType="int" column="season"/>
+            <arg javaType="java.time.LocalDateTime" column="reg_dt"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="score" type="score">
+        <constructor>
+            <arg javaType="user" resultMap="user"/>
+            <arg javaType="int" column="order"/>
+            <arg javaType="int" column="score"/>
+            <arg javaType="string" column="hakoten_yn"/>
+            <arg javaType="string" column="yakuman_kind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="user" type="user">
+        <constructor>
+            <arg javaType="string" column="id"/>
+            <arg javaType="string" column="name"/>
+        </constructor>
+    </resultMap>
+
+    <select id="selectHistoryList" resultMap="history" parameterType="int">
+        SELECT
+          game.game_seq AS game_seq,
+          game.season AS season,
+          user.id AS id,
+          user.name AS name,
+          score.order AS order,
+          score.score AS score,
+          score.hakoten_yn AS hakoten_yn,
+          score.yakuman_kind AS yakuman_kind,
+          game.reg_dt AS reg_dt
+        FROM game
+        LEFT JOIN score ON game.game_seq = score.game_seq
+        LEFT JOIN user ON score.user_seq = user.user_seq
+        <if test="season > 0">
+            WHERE
+            game.season = #{season}
+        </if>
+    </select>
+
+    <insert id="insertGame" parameterType="game">
+        INSERT INTO
+        game (
+          season
+        )
+        VALUES (
+          #{season}
+        )
+    </insert>
+
+    <insert id="insertScore" parameterType="score">
+        INSERT INTO
+        score (
+
+        )
+        VALUES
+    </insert>
+</mapper>

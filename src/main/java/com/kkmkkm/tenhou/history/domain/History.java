@@ -12,10 +12,6 @@ import java.util.List;
 @Data
 @Alias("history")
 public class History {
-    private int id;
-    private int season;
+    private Game game;
     private List<Score> scoreList;
-    private List<Member> yakumanMemberList;
-    private List<Member> hakotenMemberList;
-    private LocalDateTime regDt;
 }

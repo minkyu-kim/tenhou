@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by kkm on 2018. 8. 17..
  */
 @Controller
-@RequestMapping("/member")
-public class MemberViewsController {
+@RequestMapping("/user")
+public class UserViewsController {
 }
